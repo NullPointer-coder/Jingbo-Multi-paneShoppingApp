@@ -21,6 +21,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.painterResource
 
 import com.example.jingbo_multipaneshoppingapp.ui.theme.JingboMultipaneShoppingAppTheme
 
@@ -90,7 +91,7 @@ fun ProductList(products: List<Product>, onProductSelected: (Product) -> Unit, m
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .padding(top = 16.dp)
+            .padding(top = 25.dp)
     ) {
         items(products) { product ->
             ProductItem(product = product, onProductSelected = onProductSelected)
@@ -141,8 +142,12 @@ fun ProductItem(product: Product, onProductSelected: (Product) -> Unit) {
 }
 
 @Composable
-fun ProductDetails(selectedProduct: Product?, onSwipeBack: () -> Unit, modifier: Modifier = Modifier) {
-    Column(
+fun ProductDetails(
+    selectedProduct: Product?,
+    onSwipeBack: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
@@ -156,10 +161,27 @@ fun ProductDetails(selectedProduct: Product?, onSwipeBack: () -> Unit, modifier:
             }
     ) {
         if (selectedProduct != null) {
+            // IconButton to close the ProductDetails
+            IconButton(
+                onClick = { onSwipeBack() },
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(8.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_cross_black),
+                    contentDescription = "Close",
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
+
+           // Spacer(modifier = Modifier.height(8.dp))
+
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp),
+                    .padding(top = 16.dp)
+                    .align(Alignment.Center),
                 elevation = CardDefaults.cardElevation(8.dp)
             ) {
                 Column(
@@ -167,7 +189,6 @@ fun ProductDetails(selectedProduct: Product?, onSwipeBack: () -> Unit, modifier:
                         .fillMaxWidth()
                         .padding(16.dp)
                 ) {
-
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -200,8 +221,7 @@ fun ProductDetails(selectedProduct: Product?, onSwipeBack: () -> Unit, modifier:
                     )
                 }
             }
-        }
-        else {
+        } else {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -213,7 +233,6 @@ fun ProductDetails(selectedProduct: Product?, onSwipeBack: () -> Unit, modifier:
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
